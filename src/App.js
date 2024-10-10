@@ -7,12 +7,12 @@ import {
   View,
   Image,
 } from 'react-native';
-import Partit from './components/partit/Partit';
+// import Partit from './components/partit/Partit';
 import { PaperProvider, Text } from 'react-native-paper';
 
-const nom = (textAMostrar) => {
+const nom = (textAMostrar, estils) => {
   return (
-    <Text style={estil}>{textAMostrar}</Text>
+    <Text style={estils.titol}>{textAMostrar}</Text>
   )
 }
 
@@ -21,7 +21,7 @@ const App = () => {
   
   return (
     <PaperProvider>
-      {nom("Rubén")}
+      {nom("Rubén", estils)}
     </PaperProvider>
   );
 }
