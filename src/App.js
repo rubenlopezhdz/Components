@@ -4,30 +4,25 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   View,
-  Image
+  Image,
 } from 'react-native';
 import Partit from './components/partit/Partit';
+import { PaperProvider, Text } from 'react-native-paper';
+
+const nom = (textAMostrar) => {
+  return (
+    <Text style={estil}>{textAMostrar}</Text>
+  )
+}
 
 /** A la funció App, dins del return crearem la notra pantalla */
 const App = () => {
   
   return (
-    <View>
-      <StatusBar />
-      <ScrollView>
-        <View>
-          <Text style={estils.titol}> Resultats Lliga 24-25 </Text>
-          <Image style={estils.image} source={require('./assets/img/benson.jpeg')}></Image>
-          <Partit style={estils.descripcio}e1='Valencia CF' e2='Betis' r1='5' r2='0'></Partit>
-          <Partit e1='Barcelona CF' e2='Juventus' r1='2' r2='2'></Partit>
-          <Partit e1='Real Madrid' e2='Atlético de Madrid' r1='3' r2='4'></Partit>
-          <Partit e1='Girona CF' e2='Celta' r1='5' r2='2'></Partit>
-          <Partit e1='UD Palmas' e2='Getafe' r1='0' r2='0'></Partit>
-        </View>
-      </ScrollView>
-    </View>
+    <PaperProvider>
+      {nom("Rubén")}
+    </PaperProvider>
   );
 }
 
