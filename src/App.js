@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import {
+  Pressable,
   ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
 
 // import Partit from './components/partit/Partit';
-import { PaperProvider, Text, TextInput } from 'react-native-paper';
+import { PaperProvider, Text, TextInput, Button } from 'react-native-paper';
 
-const Dades = ({ estil }) => {
-  let cambiaTextColor = estil === estils.florida ? "white" : "orange";
+const App = () => {
 
   const [valors, setValors] = useState([
-    { label: 'Nom', value: '' },
-    { label: 'Email', value: '' },
-    { label: 'Telefon', value: '' },
+    { label: 'Nom', value: '', placeHolder: 'Nom' },
+    { label: 'Email', value: '', placeHolder: 'Email' },
   ]);
+  const [estil, setEstil] = useState(estils.florida);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   const introduirText = (text, index) => {
     const rebreValors = valors.slice();
@@ -23,36 +24,46 @@ const Dades = ({ estil }) => {
     setValors(rebreValors);
   };
 
-  return (
-    <ScrollView>
-      {valors.map((valor, index) => (
-        <TextInput style={estil}
-          key={index}
-          label={valor.label}
-          value={valor.value}
-          onChangeText={text => introduirText(text, index)}
-          textColor={cambiaTextColor}
-        />
-      ))}
-    </ScrollView>
-  );
-}
+  const Dades = ({ estil }) => {
+    let cambiaTextColor = estil === estils.florida ? "white" : "orange";
 
-const Nom = ({ textAMostrar, estils }) => {
-  return (
-    <Text style={estils}>{textAMostrar}</Text>
-  );
-}
+    return (
+      <ScrollView>
+        {valors.map((valor, index) => (
+          <TextInput style={estil}
+            key={index}
+            label={valor.label}
+            value={valor.value}
+            placeholder={valor.placeHolder}
+            onChangeText={text => introduirText(text, index)}
+            textColor={cambiaTextColor}
+          />
+        ))}
+      </ScrollView>
+    );
+  }
 
-const App = () => {
+  const Nom = ({ textAMostrar, estils }) => {
+    return (
+      <Text style={estils}>{textAMostrar}</Text>
+    );
+  }
 
-  const [estil, setEstil] = useState(estils.florida);
+  const BotoInformes = ({ estils }) => {
+    return (
+      isAdmin ? (
+        <Button style={estils.boto} icon="format-list-bulleted" mode="contained">
+          <Text style={estils.descripcio}>Informes</Text>
+        </Button>) : null
+    )
+  }
 
   return (
     <PaperProvider>
       <View style={estils.sectionContainer}>
         <Nom textAMostrar="Rubén López" estils={estils.titol} />
         <Dades estil={estil} />
+        <BotoInformes estils={estils} />
       </View>
     </PaperProvider>
   );
@@ -69,9 +80,8 @@ const estils = StyleSheet.create({
     fontStyle: 'italic'
   },
   descripcio: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+    fontSize: 12,
+    color: 'white'
   },
   image: {
     width: '100%',
@@ -95,6 +105,15 @@ const estils = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
+  boto: {
+    backgroundColor: 'purple',
+    width: '100%',
+    height: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 0
+  }
 });
 
 export default App;
