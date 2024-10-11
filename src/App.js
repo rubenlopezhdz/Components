@@ -8,24 +8,24 @@ import {
 // import Partit from './components/partit/Partit';
 import { PaperProvider, Text, TextInput } from 'react-native-paper';
 
-const Dades = () => {
-  
+const Dades = ({estil}) => {
+
   const [valors, setValors] = useState([
-    { label: 'Nom', value: ''},
-    { label: 'Email', value: ''},
-    { label: 'Telefon', value: ''},
+    { label: 'Nom', value: '' },
+    { label: 'Email', value: '' },
+    { label: 'Telefon', value: '' },
   ]);
 
   const introduirText = (text, index) => {
     const rebreValors = valors.slice();
-    rebreValors[index].value = text; 
+    rebreValors[index].value = text;
     setValors(rebreValors);
   };
 
   return (
     <ScrollView>
       {valors.map((valor, index) => (
-        <TextInput
+        <TextInput style={estil}
           key={index}
           label={valor.label}
           value={valor.value}
@@ -43,11 +43,14 @@ const Nom = ({ textAMostrar, estils }) => {
 }
 
 const App = () => {
+
+  const [estil, setEstil] = useState(estils.florida);
+
   return (
     <PaperProvider>
       <View style={estils.sectionContainer}>
         <Nom textAMostrar="Rubén López" estils={estils.titol} />
-        <Dades />
+        <Dades estil={estil}/>
       </View>
     </PaperProvider>
   );
@@ -73,7 +76,24 @@ const estils = StyleSheet.create({
     width: '100%',
     height: 150,
     margin: 10
-  }
+  }, 
+  upv: {
+    backgroundColor: 'purple',
+    fontSize: 10,
+    fontWeight: '600',
+    padding: 4,
+    paddingLeft: 12,
+    textAlign: 'left',
+    color: 'grey',
+  },
+  florida: {
+    backgroundColor: 'red',
+    fontSize: 12,
+    fontWeight: '600',
+    padding: 4,
+    paddingRight: 12,
+    textAlign: 'right',
+  },
 });
 
 export default App;
