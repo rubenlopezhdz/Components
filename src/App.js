@@ -1,4 +1,3 @@
-/** IMPORTEM les llibreries necessàries */
 import React, { useState } from 'react';
 import {
   ScrollView,
@@ -7,26 +6,39 @@ import {
   View,
   Image,
 } from 'react-native';
-// import Partit from './components/partit/Partit';
-import { PaperProvider, Text } from 'react-native-paper';
 
-const nom = (textAMostrar, estils) => {
+// import Partit from './components/partit/Partit';
+import { PaperProvider, Text, TextInput } from 'react-native-paper';
+
+const Dades = () => {
+  const [text, setText] = useState("");
+
   return (
-    <Text style={estils.titol}>{textAMostrar}</Text>
-  )
+    <TextInput
+      label="Dades"
+      value={text}
+      onChangeText={text => setText(text)}
+    />
+  );
 }
 
-/** A la funció App, dins del return crearem la notra pantalla */
+const Nom = ({textAMostrar, estils}) => {
+  return (
+    <Text style={estils}>{textAMostrar}</Text>
+  );
+}
+
 const App = () => {
-  
   return (
     <PaperProvider>
-      {nom("Rubén", estils)}
+      <View style={estils.sectionContainer}>
+        <Nom textAMostrar="Rubén" estils = {estils.titol} />
+        <Dades />
+      </View>
     </PaperProvider>
   );
 }
 
-/** En aquesta secció, crearem els estils a aplicar als nostres components */
 const estils = StyleSheet.create({
   sectionContainer: {
     display: 'flex',
