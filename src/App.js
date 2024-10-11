@@ -1,28 +1,42 @@
 import React, { useState } from 'react';
 import {
   ScrollView,
-  StatusBar,
   StyleSheet,
   View,
-  Image,
 } from 'react-native';
 
 // import Partit from './components/partit/Partit';
 import { PaperProvider, Text, TextInput } from 'react-native-paper';
 
 const Dades = () => {
-  const [text, setText] = useState("");
+  
+  const [valors, setValors] = useState([
+    { label: 'Nom', value: ''},
+    { label: 'Email', value: ''},
+    { label: 'Telefon', value: ''},
+  ]);
+
+  const introduirText = (text, index) => {
+    const rebreValors = valors.slice();
+    rebreValors[index].value = text; 
+    setValors(rebreValors);
+  };
 
   return (
-    <TextInput
-      label="Dades"
-      value={text}
-      onChangeText={text => setText(text)}
-    />
+    <ScrollView>
+      {valors.map((valor, index) => (
+        <TextInput
+          key={index}
+          label={valor.label}
+          value={valor.value}
+          onChangeText={text => introduirText(text, index)}
+        />
+      ))}
+    </ScrollView>
   );
 }
 
-const Nom = ({textAMostrar, estils}) => {
+const Nom = ({ textAMostrar, estils }) => {
   return (
     <Text style={estils}>{textAMostrar}</Text>
   );
@@ -32,7 +46,7 @@ const App = () => {
   return (
     <PaperProvider>
       <View style={estils.sectionContainer}>
-        <Nom textAMostrar="Rubén" estils = {estils.titol} />
+        <Nom textAMostrar="Rubén López" estils={estils.titol} />
         <Dades />
       </View>
     </PaperProvider>
@@ -47,7 +61,7 @@ const estils = StyleSheet.create({
   },
   titol: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontStyle: 'italic'
   },
   descripcio: {
     marginTop: 8,
