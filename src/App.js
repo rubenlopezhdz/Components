@@ -8,7 +8,8 @@ import {
 // import Partit from './components/partit/Partit';
 import { PaperProvider, Text, TextInput } from 'react-native-paper';
 
-const Dades = ({estil}) => {
+const Dades = ({ estil }) => {
+  let cambiaTextColor = estil === estils.florida ? "white" : "orange";
 
   const [valors, setValors] = useState([
     { label: 'Nom', value: '' },
@@ -30,6 +31,7 @@ const Dades = ({estil}) => {
           label={valor.label}
           value={valor.value}
           onChangeText={text => introduirText(text, index)}
+          textColor={cambiaTextColor}
         />
       ))}
     </ScrollView>
@@ -50,7 +52,7 @@ const App = () => {
     <PaperProvider>
       <View style={estils.sectionContainer}>
         <Nom textAMostrar="Rubén López" estils={estils.titol} />
-        <Dades estil={estil}/>
+        <Dades estil={estil} />
       </View>
     </PaperProvider>
   );
@@ -70,13 +72,12 @@ const estils = StyleSheet.create({
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
-    fontFamily: 'LEMONMILK-LightItalic'
   },
   image: {
     width: '100%',
     height: 150,
     margin: 10
-  }, 
+  },
   upv: {
     backgroundColor: 'purple',
     fontSize: 10,
