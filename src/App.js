@@ -1,37 +1,105 @@
-/** IMPORTEM les llibreries necessàries */
 import React, { useState } from 'react';
 import {
   ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
   View,
-  Image
 } from 'react-native';
-import Partit from './components/partit/Partit';
 
-/** A la funció App, dins del return crearem la notra pantalla */
+// import Partit from './components/partit/Partit';
+import { PaperProvider, Text, TextInput, Button } from 'react-native-paper';
+
 const App = () => {
-  
-  return (
-    <View>
-      <StatusBar />
+
+  const [valors, setValors] = useState([
+    { label: 'Nom', value: '', placeHolder: 'Nom' },
+    { label: 'Email', value: '', placeHolder: 'Email' },
+  ]);
+
+  const [isAdmin, setIsAdmin] = useState(true);
+  const [moduls2Dam, setModuls2Dam] = useState(
+    [
+      { nom: 'DIN', professor: 'Manel', hores: 120 },
+      { nom: 'ADA', professor: 'Roberto', hores: 120 },
+      { nom: 'PMDM', professor: 'Paco', hores: 100 },
+      { nom: 'PSP', professor: 'Roberto', hores: 60 },
+      { nom: 'SGE', professor: 'Belén', hores: 100 },
+      { nom: 'Anglés', professor: 'Caterina', hores: 40 },
+      { nom: 'EIE', professor: 'Ana', hores: 60 },
+    ]
+  );
+
+  const introduirText = (text, index, valors, setValors) => {
+    const array = [...valors];
+    array[index].value = text;
+    setValors(array);
+  };
+
+  const Dades = ({ estils, valors, setValors }) => {
+    const estilTextInput = estils.florida;
+    let cambiaTextColor = estilTextInput === estils.florida ? 'white' : 'orange';
+
+    return (
       <ScrollView>
-        <View>
-          <Text style={estils.titol}> Resultats Lliga 24-25 </Text>
-          <Image style={estils.image} source={require('./assets/img/benson.jpeg')}></Image>
-          <Partit style={estils.descripcio}e1='Valencia CF' e2='Betis' r1='5' r2='0'></Partit>
-          <Partit e1='Barcelona CF' e2='Juventus' r1='2' r2='2'></Partit>
-          <Partit e1='Real Madrid' e2='Atlético de Madrid' r1='3' r2='4'></Partit>
-          <Partit e1='Girona CF' e2='Celta' r1='5' r2='2'></Partit>
-          <Partit e1='UD Palmas' e2='Getafe' r1='0' r2='0'></Partit>
+        {valors.map((valor, index) => (
+          <TextInput
+            style={estilTextInput}
+            key={index.toString()}
+            label={valor.label}
+            value={valor.value}
+            placeholder={valor.placeHolder}
+            onChangeText={(text) => introduirText(text, index, valors, setValors)}
+            textColor={cambiaTextColor}
+          />
+        ))}
+      </ScrollView>
+    );
+  }
+
+  const Nom = ({ textAMostrar, estils }) => {
+    return (
+      <Text style={estils}>{textAMostrar}</Text>
+    );
+  }
+
+  const BotoInformes = ({ estils }) => {
+    return (
+      isAdmin ? (
+        <Button style={estils.boto} icon="format-list-bulleted" mode="contained">
+          <Text style={estils.descripcio}>Informes</Text>
+        </Button>) : null
+    )
+  }
+
+  const Moduls2Dam = ({ estils, moduls2Dam }) => {
+
+    return (
+      <View>
+        {moduls2Dam.map((value, index) => {
+          let cambiaEstils = index % 2 === 0 ? estils.bgColorRose : estils.bgColorRoseLight;
+          return (
+            <Text style={cambiaEstils} key={index.toString()}>
+              {(index + 1) + '\n' + value.nom + '\n' + value.professor + '\n' + value.hores + ' hores'}
+            </Text>
+          )
+        })}
+      </View>
+    )
+  }
+
+  return (
+    <PaperProvider>
+      <ScrollView>
+        <View style={estils.sectionContainer}>
+          <Nom textAMostrar="Rubén López" estils={estils.titol} />
+          <Dades estils={estils} valors={valors} setValors={setValors}/>
+          <BotoInformes estils={estils} />
+          <Moduls2Dam estils={estils} moduls2Dam={moduls2Dam} />
         </View>
       </ScrollView>
-    </View>
+    </PaperProvider>
   );
 }
 
-/** En aquesta secció, crearem els estils a aplicar als nostres components */
 const estils = StyleSheet.create({
   sectionContainer: {
     display: 'flex',
@@ -40,18 +108,48 @@ const estils = StyleSheet.create({
   },
   titol: {
     fontSize: 32,
-    fontWeight: 'bold',
+    fontStyle: 'italic'
   },
   descripcio: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    fontFamily: 'LEMONMILK-LightItalic'
+    fontSize: 12,
+    color: 'white'
   },
   image: {
     width: '100%',
     height: 150,
     margin: 10
+  },
+  upv: {
+    backgroundColor: 'purple',
+    fontSize: 10,
+    fontWeight: '600',
+    padding: 4,
+    paddingLeft: 12,
+    textAlign: 'left',
+    color: 'grey',
+  },
+  florida: {
+    backgroundColor: 'red',
+    fontSize: 12,
+    fontWeight: '600',
+    padding: 4,
+    paddingRight: 12,
+    textAlign: 'right',
+  },
+  boto: {
+    backgroundColor: 'purple',
+    width: '100%',
+    height: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 0
+  },
+  bgColorRose: {
+    backgroundColor: '#F48FB1',
+  },
+  bgColorRoseLight: {
+    backgroundColor: '#F8BBD0',
   }
 });
 
