@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Pressable,
   ScrollView,
   StyleSheet,
   View,
@@ -15,27 +14,40 @@ const App = () => {
     { label: 'Nom', value: '', placeHolder: 'Nom' },
     { label: 'Email', value: '', placeHolder: 'Email' },
   ]);
-  const [estil, setEstil] = useState(estils.florida);
-  const [isAdmin, setIsAdmin] = useState(true);
 
-  const introduirText = (text, index) => {
-    const rebreValors = valors.slice();
-    rebreValors[index].value = text;
-    setValors(rebreValors);
+  const [isAdmin, setIsAdmin] = useState(true);
+  const [moduls2Dam, setModuls2Dam] = useState(
+    [
+      { nom: 'DIN', professor: 'Manel', hores: 120 },
+      { nom: 'ADA', professor: 'Roberto', hores: 120 },
+      { nom: 'PMDM', professor: 'Paco', hores: 100 },
+      { nom: 'PSP', professor: 'Roberto', hores: 60 },
+      { nom: 'SGE', professor: 'Belén', hores: 100 },
+      { nom: 'Anglés', professor: 'Caterina', hores: 40 },
+      { nom: 'EIE', professor: 'Ana', hores: 60 },
+    ]
+  );
+
+  const introduirText = (text, index, valors, setValors) => {
+    const array = [...valors];
+    array[index].value = text;
+    setValors(array);
   };
 
-  const Dades = ({ estil }) => {
-    let cambiaTextColor = estil === estils.florida ? "white" : "orange";
+  const Dades = ({ estils, valors, setValors }) => {
+    const estilTextInput = estils.florida;
+    let cambiaTextColor = estilTextInput === estils.florida ? 'white' : 'orange';
 
     return (
       <ScrollView>
         {valors.map((valor, index) => (
-          <TextInput style={estil}
-            key={index}
+          <TextInput
+            style={estilTextInput}
+            key={index.toString()}
             label={valor.label}
             value={valor.value}
             placeholder={valor.placeHolder}
-            onChangeText={text => introduirText(text, index)}
+            onChangeText={(text) => introduirText(text, index, valors, setValors)}
             textColor={cambiaTextColor}
           />
         ))}
@@ -58,13 +70,32 @@ const App = () => {
     )
   }
 
+  const Moduls2Dam = ({ estils, moduls2Dam }) => {
+
+    return (
+      <View>
+        {moduls2Dam.map((value, index) => {
+          let cambiaEstils = index % 2 === 0 ? estils.bgColorRose : estils.bgColorRoseLight;
+          return (
+            <Text style={cambiaEstils} key={index.toString()}>
+              {(index + 1) + '\n' + value.nom + '\n' + value.professor + '\n' + value.hores + ' hores'}
+            </Text>
+          )
+        })}
+      </View>
+    )
+  }
+
   return (
     <PaperProvider>
-      <View style={estils.sectionContainer}>
-        <Nom textAMostrar="Rubén López" estils={estils.titol} />
-        <Dades estil={estil} />
-        <BotoInformes estils={estils} />
-      </View>
+      <ScrollView>
+        <View style={estils.sectionContainer}>
+          <Nom textAMostrar="Rubén López" estils={estils.titol} />
+          <Dades estils={estils} valors={valors} setValors={setValors}/>
+          <BotoInformes estils={estils} />
+          <Moduls2Dam estils={estils} moduls2Dam={moduls2Dam} />
+        </View>
+      </ScrollView>
     </PaperProvider>
   );
 }
@@ -113,6 +144,12 @@ const estils = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 0
+  },
+  bgColorRose: {
+    backgroundColor: '#F48FB1',
+  },
+  bgColorRoseLight: {
+    backgroundColor: '#F8BBD0',
   }
 });
 
